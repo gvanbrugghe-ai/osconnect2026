@@ -25,6 +25,10 @@ contacted and which agreed to receive the Gartner review form.
 All changes to Contacted, Subscribed and Email are saved to Supabase and shared
 across every device in real time.
 
+3. **Export CSV** — the button top-right downloads the full list at any time, with the
+   current Contacted/Subscribed statuses (UTF-8, dated filename). Use it at the end of
+   the event to collect the sign-ups (filter `subscribed = Yes` in Excel).
+
 > Security note: this is a client-side gate, fine for an internal event tool, but
 > the login/password live in the page source (any published page's source is public).
 > The Supabase *anon* key is also public by design — data access is controlled by the
@@ -37,10 +41,13 @@ across every device in real time.
 ### 1. Database (Supabase)
 1. supabase.com → create a free project (pick an **EU** region).
 2. **SQL Editor → New query** → paste `schema.sql` → **Run**.
-   Creates the `customers` table, access policies, and a few sample rows.
-3. Import your real list: **Table Editor → customers → Insert → Import data from CSV**.
-   CSV headers must be exactly: `brand, last_name, first_name, email, csm`.
-   Leave `contacted` / `subscribed` out (they default to false). Delete the sample rows.
+   This creates the empty `customers` table and the access policies (no data).
+3. Load your customers from CSV: **Table Editor → customers → Insert → Import data from CSV**,
+   then upload your file based on `customers_template.csv`.
+   - Headers must be exactly: `brand,last_name,first_name,email,csm`
+   - Leave `contacted` / `subscribed` out — they default to No.
+   - `id` is generated automatically — don't include it.
+   - Save the CSV as **UTF-8** (in Excel: "CSV UTF-8") so accents (é, è, ï…) import correctly.
 4. **Project Settings → API**: copy the **Project URL** and the **anon public** key.
 
 ### 2. Connect the app
@@ -67,6 +74,7 @@ The page is `noindex` and `robots.txt` blocks crawlers, so it won't appear in Go
 
 ## Files
 - `index.html` — the whole app (UI + logic)
-- `schema.sql` — database table, RLS policies, sample data
+- `schema.sql` — database table + RLS policies (no data)
+- `customers_template.csv` — fill with your customers, then import in Supabase
 - `robots.txt` — keeps search engines out
 - `README.md` — this file

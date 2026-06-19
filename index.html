@@ -51,6 +51,11 @@
     .topbar{padding:11px 16px 6px;display:flex;align-items:center;justify-content:space-between}
     .topbar .wordmark{font-size:15px}
     .topbar .sub{font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.07em}
+    .export-btn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+      color:#fff;border-radius:9px;padding:7px 11px;font-size:12.5px;font-weight:600;letter-spacing:.01em}
+    .export-btn:hover{background:rgba(21,184,166,.18);border-color:var(--teal)}
+    .export-btn:active{transform:translateY(1px)}
+    .export-btn svg{flex:none}
     .stats{display:flex;gap:10px;padding:8px 16px 4px}
     .stat{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);border-radius:12px;padding:9px 12px}
     .stat .num{font-size:21px;font-weight:700;letter-spacing:-.02em;line-height:1}
@@ -142,7 +147,10 @@
   <header class="appbar">
     <div class="topbar">
       <div class="wordmark"><span class="dot"></span> OS Connect</div>
-      <span class="sub">Gartner Review</span>
+      <button id="export-btn" class="export-btn" type="button" aria-label="Export CSV">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+        Export CSV
+      </button>
     </div>
     <div class="stats">
       <div class="stat"><div class="num" id="stat-total">0</div><div class="lbl">Targeted</div></div>
@@ -247,6 +255,7 @@ function fillSelect(sel, allLabel, values){
 $("#search").addEventListener("input", e=>{ query=e.target.value.trim().toLowerCase(); render(); });
 $("#f-brand").addEventListener("change", e=>{ brandFilter=e.target.value; render(); });
 $("#f-csm").addEventListener("change", e=>{ csmFilter=e.target.value; render(); });
+$("#export-btn").addEventListener("click", exportCsv);
 
 function visibleCustomers(){
   let list = customers.slice();
@@ -363,6 +372,29 @@ async function saveEmail(id, val){
     if (error) throw error;
     toast("Email updated");
   }catch(err){ console.error(err); c.email = prev; renderEmailView(id); toast("Couldn't save email"); }
+}
+
+/* ---------- CSV export ---------- */
+function csvCell(v){
+  if (v === true) return "Yes";
+  if (v === false) return "No";
+  const s = String(v ?? "");
+  return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+}
+function exportCsv(){
+  const cols = ["brand","last_name","first_name","email","csm","contacted","subscribed"];
+  const rows = customers.slice().sort((a,b)=>
+    (a.brand||"").localeCompare(b.brand||"") || (a.last_name||"").localeCompare(b.last_name||""));
+  const lines = [cols.join(",")].concat(rows.map(c => cols.map(k => csvCell(c[k])).join(",")));
+  const csv = "\uFEFF" + lines.join("\r\n");   // BOM so Excel reads UTF-8 (accents)
+  const blob = new Blob([csv], { type:"text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `osconnect_gartner_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+  toast(`Exported ${rows.length} customers`);
 }
 
 /* ---------- helpers ---------- */
