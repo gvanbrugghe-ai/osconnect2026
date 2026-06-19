@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+  <meta name="googlebot" content="noindex, nofollow" />
+  <title>OS Connect · Gartner Review</title>
+  <style>
+    :root{
+      --ink:#0C1C2C; --ink-2:#13283C; --teal:#15B8A6; --teal-deep:#0E8C7F;
+      --paper:#F5F7F9; --card:#FFFFFF; --line:#E3E9EF; --muted:#5B7186; --text:#0C1C2C;
+      --green:#16A34A; --green-bg:#E9F8EF; --amber:#B45309;
+      --shadow:0 1px 2px rgba(12,28,44,.06),0 6px 20px rgba(12,28,44,.06);
+      --radius:14px; font-synthesis-weight:none;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      color:var(--text);background:var(--paper);-webkit-font-smoothing:antialiased;line-height:1.45}
+    button{font-family:inherit;cursor:pointer}
+    input,select{font-family:inherit}
+    .wordmark{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
+    .wordmark .dot{width:10px;height:10px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(21,184,166,.15)}
+    .hidden{display:none!important}
+
+    /* Gate */
+    .center{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;
+      background:radial-gradient(1200px 500px at 50% -10%, rgba(21,184,166,.10), transparent 60%),linear-gradient(180deg,#0C1C2C,#0A1622);color:#fff}
+    .gate-card{width:100%;max-width:380px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.10);
+      border-radius:18px;padding:28px 24px;backdrop-filter:blur(8px)}
+    .center .wordmark{color:#fff;font-size:18px;margin-bottom:4px}
+    .gate-eyebrow{color:rgba(255,255,255,.55);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;margin:18px 0 4px}
+    .gate-title{font-size:21px;font-weight:650;letter-spacing:-.02em;margin:0 0 18px}
+    .field{margin-bottom:14px}
+    .field label{display:block;font-size:12.5px;color:rgba(255,255,255,.6);margin-bottom:6px}
+    .field input{width:100%;padding:13px 14px;border-radius:11px;border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);color:#fff;font-size:16px;outline:none}
+    .field input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(21,184,166,.25)}
+    .field input::placeholder{color:rgba(255,255,255,.35)}
+    .btn-primary{width:100%;padding:14px;border:none;border-radius:11px;background:var(--teal);color:#04201C;
+      font-weight:650;font-size:15.5px;letter-spacing:-.01em;transition:transform .05s ease,background .15s}
+    .btn-primary:hover{background:#19c7b3}
+    .btn-primary:active{transform:translateY(1px)}
+    .err{color:#FCA5A5;font-size:13px;margin-top:10px;min-height:18px}
+    .gate-foot{margin-top:18px;font-size:11.5px;color:rgba(255,255,255,.4);text-align:center}
+
+    /* App */
+    .appbar{position:sticky;top:0;z-index:30;background:var(--ink);color:#fff;padding-top:env(safe-area-inset-top);
+      box-shadow:0 6px 18px rgba(10,18,28,.18)}
+    .topbar{padding:11px 16px 6px;display:flex;align-items:center;justify-content:space-between}
+    .topbar .wordmark{font-size:15px}
+    .topbar .sub{font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.07em}
+    .stats{display:flex;gap:10px;padding:8px 16px 4px}
+    .stat{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);border-radius:12px;padding:9px 12px}
+    .stat .num{font-size:21px;font-weight:700;letter-spacing:-.02em;line-height:1}
+    .stat .lbl{font-size:10.5px;color:rgba(255,255,255,.55);margin-top:4px;text-transform:uppercase;letter-spacing:.05em}
+    .stat .num.teal{color:var(--teal)}
+    .controls{padding:10px 16px 14px}
+    .search{width:100%;padding:11px 14px 11px 38px;border-radius:11px;border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237B91A6' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") no-repeat 12px center;
+      color:#fff;font-size:16px;outline:none}
+    .search:focus{border-color:var(--teal)}
+    .search::placeholder{color:rgba(255,255,255,.4)}
+    .filters{display:flex;gap:8px;margin-top:10px}
+    .select{flex:1;min-width:0;padding:10px 30px 10px 12px;border-radius:11px;border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237B91A6' stroke-width='2.4'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;
+      color:#fff;font-size:14px;-webkit-appearance:none;appearance:none;outline:none}
+    .select:focus{border-color:var(--teal)}
+    .select option{color:#0C1C2C}
+
+    .list{padding:8px 14px 90px}
+    .brand-head{display:flex;align-items:center;gap:10px;padding:16px 4px 8px}
+    .brand-head h2{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0}
+    .brand-head .count{font-size:12px;color:var(--muted);background:#EAEFF4;border-radius:999px;padding:2px 9px}
+    .brand-head .rule{flex:1;height:1px;background:var(--line)}
+
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
+    .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+    .cust-name{font-weight:650;font-size:15.5px;letter-spacing:-.01em}
+    .email-row{display:flex;align-items:center;gap:6px;margin-top:3px}
+    .cust-email{font-size:13px;color:var(--muted);word-break:break-all}
+    .edit-email{background:none;border:none;color:var(--muted);padding:3px;line-height:0;border-radius:6px;flex:none}
+    .edit-email:hover{color:var(--teal-deep);background:#EEF6F4}
+    .email-input{flex:1;min-width:0;padding:8px 10px;border:1px solid var(--teal);border-radius:9px;font-size:14px;color:var(--text);outline:none}
+    .ee-save,.ee-cancel{border:none;border-radius:9px;padding:8px 11px;font-size:13px;font-weight:700;flex:none}
+    .ee-save{background:var(--green);color:#fff}
+    .ee-cancel{background:#EEF2F6;color:var(--muted)}
+    .csm-tag{font-size:11px;color:var(--teal-deep);background:var(--green-bg);border-radius:999px;padding:3px 9px;white-space:nowrap;font-weight:600;flex:none}
+    .toggles{display:flex;gap:10px;margin-top:13px;border-top:1px solid var(--line);padding-top:12px}
+    .tg{flex:1}
+    .tg .tg-lbl{font-size:11.5px;color:var(--muted);margin-bottom:7px;letter-spacing:.02em;text-transform:uppercase}
+    .switch{display:flex;background:#EEF2F6;border-radius:10px;padding:3px;gap:3px}
+    .switch button{flex:1;border:none;background:transparent;padding:8px 4px;border-radius:8px;font-size:13px;font-weight:600;color:var(--muted);transition:.12s}
+    .switch button.on-yes{background:var(--green);color:#fff;box-shadow:0 1px 3px rgba(22,163,74,.3)}
+    .switch button.on-no{background:#FEE2E2;color:#B91C1C;box-shadow:0 1px 2px rgba(185,28,28,.12)}
+    .switch.is-disabled{opacity:.45}
+    .switch.is-disabled button{cursor:not-allowed}
+    .tg.locked .tg-lbl{color:#9AAABA}
+    .saving{opacity:.55;pointer-events:none}
+
+    .empty{text-align:center;color:var(--muted);padding:60px 24px}
+    .empty .big{font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px}
+    .loading{text-align:center;color:var(--muted);padding:50px}
+    .banner{padding:9px 16px;font-size:12.5px;text-align:center;font-weight:500}
+    .banner.demo{background:#FFF4E5;color:var(--amber);border-bottom:1px solid #FCE3C0}
+    .banner.error{background:#FEF2F2;color:#B91C1C;border-bottom:1px solid #FCC}
+    .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;
+      padding:10px 16px;border-radius:999px;font-size:13px;font-weight:500;opacity:0;transition:.25s;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.25);pointer-events:none}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+    @media (min-width:640px){.list,.appbar > *{max-width:560px;margin-left:auto;margin-right:auto}}
+  </style>
+</head>
+<body>
+
+<!-- Gate -->
+<div id="gate" class="center">
+  <div class="gate-card">
+    <div class="wordmark"><span class="dot"></span> OneStock</div>
+    <div class="gate-eyebrow">OS Connect 2026</div>
+    <h1 class="gate-title">Gartner Review sign-ups</h1>
+    <form id="gate-form" autocomplete="off">
+      <div class="field">
+        <label for="g-user">Login</label>
+        <input id="g-user" type="text" placeholder="Login" autocapitalize="none" autocomplete="username" />
+      </div>
+      <div class="field">
+        <label for="g-pass">Password</label>
+        <input id="g-pass" type="password" placeholder="Password" autocomplete="current-password" />
+      </div>
+      <button class="btn-primary" type="submit">Enter</button>
+      <div id="gate-err" class="err"></div>
+    </form>
+    <div class="gate-foot">Internal use · Not for distribution</div>
+  </div>
+</div>
+
+<!-- App -->
+<div id="app" class="hidden">
+  <div id="banner" class="banner hidden"></div>
+  <header class="appbar">
+    <div class="topbar">
+      <div class="wordmark"><span class="dot"></span> OS Connect</div>
+      <span class="sub">Gartner Review</span>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="num" id="stat-total">0</div><div class="lbl">Targeted</div></div>
+      <div class="stat"><div class="num teal" id="stat-contacted">0</div><div class="lbl">Contacted</div></div>
+      <div class="stat"><div class="num teal" id="stat-subscribed">0</div><div class="lbl">Subscribed</div></div>
+    </div>
+    <div class="controls">
+      <input id="search" class="search" type="search" placeholder="Search name, email, brand or CSM…" autocomplete="off" />
+      <div class="filters">
+        <select id="f-brand" class="select" aria-label="Filter by brand"><option value="">All brands</option></select>
+        <select id="f-csm" class="select" aria-label="Filter by CSM"><option value="">All CSMs</option></select>
+      </div>
+    </div>
+  </header>
+  <div id="list" class="list"><div class="loading">Loading customers…</div></div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script type="module">
+/* ================================================================
+   CONFIG — paste your Supabase project URL + anon (public) key.
+   Leave as-is to run in DEMO mode (data is NOT saved/shared).
+   ================================================================ */
+const SUPABASE_URL  = "https://YOUR-PROJECT.supabase.co";
+const SUPABASE_ANON_KEY = "YOUR-ANON-KEY";
+
+const APP_LOGIN = "Onestock";
+const APP_PASSWORD = "OSConnect31!2026";
+/* ---------------------------------------------------------------- */
+
+const PENCIL = `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>`;
+
+const DEMO = SUPABASE_URL.includes("YOUR-PROJECT") || SUPABASE_ANON_KEY.includes("YOUR-ANON-KEY");
+let supabase = null;
+if (!DEMO) {
+  const { createClient } = await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm");
+  supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+
+/* All customers start Not contacted / Not subscribed by default. */
+const DEMO_DATA = [
+  {id:"1", brand:"Bogner", first_name:"Léa", last_name:"Moreau", email:"lea.moreau@bogner.example", csm:"Camille Dubois", contacted:false, subscribed:false},
+  {id:"2", brand:"Bogner", first_name:"Tomas", last_name:"Berg", email:"t.berg@bogner.example", csm:"Marc Lefèvre", contacted:false, subscribed:false},
+  {id:"3", brand:"APEX Tech", first_name:"Nadia", last_name:"Khan", email:"nadia.khan@apex.example", csm:"Camille Dubois", contacted:false, subscribed:false},
+  {id:"4", brand:"APEX Tech", first_name:"Owen", last_name:"Pratt", email:"owen.pratt@apex.example", csm:"Sofia Rossi", contacted:false, subscribed:false},
+  {id:"5", brand:"Northwind Apparel", first_name:"Mei", last_name:"Tan", email:"mei.tan@northwind.example", csm:"Marc Lefèvre", contacted:false, subscribed:false},
+  {id:"6", brand:"Northwind Apparel", first_name:"Hugo", last_name:"Lambert", email:"hugo.lambert@northwind.example", csm:"Sofia Rossi", contacted:false, subscribed:false},
+  {id:"7", brand:"Maison Clé", first_name:"Inès", last_name:"Faure", email:"ines.faure@maisoncle.example", csm:"Camille Dubois", contacted:false, subscribed:false},
+];
+
+let customers = [];
+let brandFilter = "", csmFilter = "", query = "";
+
+const $ = (s) => document.querySelector(s);
+const SS = (() => {
+  try { const t="__osc_test"; window.sessionStorage.setItem(t,"1"); window.sessionStorage.removeItem(t); return window.sessionStorage; }
+  catch(e){ const mem={}; return { getItem:k=>(k in mem?mem[k]:null), setItem:(k,v)=>{mem[k]=String(v);}, removeItem:k=>{delete mem[k];} }; }
+})();
+
+const gateEl = $("#gate"), appEl = $("#app");
+
+$("#gate-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const u = $("#g-user").value.trim(), p = $("#g-pass").value;
+  if (u.toLowerCase() === APP_LOGIN.toLowerCase() && p === APP_PASSWORD){ SS.setItem("osc_auth","1"); await start(); }
+  else { $("#gate-err").textContent = "Wrong login or password."; }
+});
+
+function showGate(){ gateEl.classList.remove("hidden"); appEl.classList.add("hidden"); }
+
+async function start(){
+  if (!customers.length) await loadCustomers();
+  gateEl.classList.add("hidden"); appEl.classList.remove("hidden");
+  if (DEMO) showBanner("demo","Demo mode — changes are not saved. Add your Supabase keys to go live.");
+  populateFilters();
+  render();
+}
+
+async function loadCustomers(){
+  if (DEMO){ customers = DEMO_DATA.map(c=>({...c})); return; }
+  try{
+    const { data, error } = await supabase
+      .from("customers")
+      .select("id,brand,first_name,last_name,email,csm,contacted,subscribed")
+      .order("brand",{ascending:true}).order("last_name",{ascending:true});
+    if (error) throw error;
+    customers = data || [];
+  }catch(err){ console.error(err); showBanner("error","Couldn't reach the database. Check your connection and try again."); customers=[]; }
+}
+
+function populateFilters(){
+  const brands=[...new Set(customers.map(c=>c.brand).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const csms=[...new Set(customers.map(c=>c.csm).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  fillSelect($("#f-brand"),"All brands",brands);
+  fillSelect($("#f-csm"),"All CSMs",csms);
+}
+function fillSelect(sel, allLabel, values){
+  sel.innerHTML = `<option value="">${allLabel}</option>` + values.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join("");
+}
+
+$("#search").addEventListener("input", e=>{ query=e.target.value.trim().toLowerCase(); render(); });
+$("#f-brand").addEventListener("change", e=>{ brandFilter=e.target.value; render(); });
+$("#f-csm").addEventListener("change", e=>{ csmFilter=e.target.value; render(); });
+
+function visibleCustomers(){
+  let list = customers.slice();
+  if (brandFilter) list = list.filter(c=>c.brand===brandFilter);
+  if (csmFilter)   list = list.filter(c=>c.csm===csmFilter);
+  if (query) list = list.filter(c=>`${c.first_name} ${c.last_name} ${c.email} ${c.brand} ${c.csm}`.toLowerCase().includes(query));
+  return list;
+}
+
+function render(){
+  const list = visibleCustomers();
+  $("#stat-total").textContent = list.length;
+  $("#stat-contacted").textContent = list.filter(c=>c.contacted).length;
+  $("#stat-subscribed").textContent = list.filter(c=>c.subscribed).length;
+
+  const el = $("#list");
+  if (!list.length){ el.innerHTML = `<div class="empty"><div class="big">No customers match</div>Clear your search or filters.</div>`; return; }
+
+  const groups = {};
+  list.forEach(c=>{ (groups[c.brand||"—"] ||= []).push(c); });
+  const brands = Object.keys(groups).sort((a,b)=>a.localeCompare(b));
+  el.innerHTML = brands.map(brand=>{
+    const cards = groups[brand].sort((a,b)=>(a.last_name||"").localeCompare(b.last_name||"")).map(cardHtml).join("");
+    return `<div class="brand-head"><h2>${escapeHtml(brand)}</h2><span class="count">${groups[brand].length}</span><span class="rule"></span></div>${cards}`;
+  }).join("");
+
+  el.querySelectorAll("[data-action]").forEach(btn=>{ btn.onclick = ()=> onToggle(btn.dataset.id, btn.dataset.action, btn.dataset.val==="true"); });
+  el.querySelectorAll(".edit-email").forEach(b=>{ b.onclick = ()=> startEmailEdit(b.dataset.edit); });
+}
+
+function emailViewHtml(c){
+  return `<span class="cust-email">${escapeHtml(c.email||"—")}</span>
+    <button class="edit-email" data-edit="${c.id}" aria-label="Edit email">${PENCIL}</button>`;
+}
+
+function cardHtml(c){
+  const subLocked = !c.contacted;
+  return `<div class="card" id="card-${c.id}">
+    <div class="card-top">
+      <div style="min-width:0;flex:1">
+        <div class="cust-name">${escapeHtml(c.first_name)} ${escapeHtml(c.last_name)}</div>
+        <div class="email-row" id="email-${c.id}">${emailViewHtml(c)}</div>
+      </div>
+      ${c.csm ? `<span class="csm-tag">${escapeHtml(c.csm)}</span>` : ""}
+    </div>
+    <div class="toggles">
+      ${switchHtml(c.id,"contacted",c.contacted,"Contacted",false)}
+      ${switchHtml(c.id,"subscribed",c.subscribed,"Subscribed",subLocked)}
+    </div>
+  </div>`;
+}
+
+function switchHtml(id, field, val, label, disabled){
+  const dis = disabled ? "disabled" : "";
+  const lab = (disabled && field==="subscribed") ? "Subscribed · contact first" : label;
+  return `<div class="tg ${disabled?"locked":""}"><div class="tg-lbl">${lab}</div>
+    <div class="switch ${disabled?"is-disabled":""}" role="group" aria-label="${label}">
+      <button data-action="${field}" data-id="${id}" data-val="true"  class="${val?"on-yes":""}" aria-pressed="${val}" ${dis}>Yes</button>
+      <button data-action="${field}" data-id="${id}" data-val="false" class="${!val?"on-no":""}" aria-pressed="${!val}" ${dis}>No</button>
+    </div></div>`;
+}
+
+async function onToggle(id, field, value){
+  const c = customers.find(x=>String(x.id)===String(id));
+  if (!c || c[field]===value) return;
+  if (field==="subscribed" && !c.contacted) return; // locked guard
+  const prev = { contacted:c.contacted, subscribed:c.subscribed };
+  const updates = { [field]: value };
+  c[field] = value;
+  // If a customer is marked not contacted, they can't stay subscribed.
+  if (field==="contacted" && value===false && c.subscribed){ c.subscribed=false; updates.subscribed=false; }
+
+  const card = $("#card-"+id); if (card) card.classList.add("saving");
+  render();
+  if (DEMO){ const cc=$("#card-"+id); if(cc) cc.classList.remove("saving"); return; }
+  try{
+    updates.updated_at = new Date().toISOString();
+    const { error } = await supabase.from("customers").update(updates).eq("id", id);
+    if (error) throw error;
+    toast(value ? `${cap(field)} ✓` : `${cap(field)} cleared`);
+  }catch(err){ console.error(err); c.contacted=prev.contacted; c.subscribed=prev.subscribed; render(); toast("Couldn't save — try again"); }
+  finally{ const cc=$("#card-"+id); if(cc) cc.classList.remove("saving"); }
+}
+
+/* ---------- Email editing ---------- */
+function renderEmailView(id){
+  const c = customers.find(x=>String(x.id)===String(id)); const row = $("#email-"+id); if(!row||!c) return;
+  row.innerHTML = emailViewHtml(c);
+  const b = row.querySelector(".edit-email"); if (b) b.onclick = ()=> startEmailEdit(id);
+}
+function startEmailEdit(id){
+  const c = customers.find(x=>String(x.id)===String(id)); const row = $("#email-"+id); if(!row||!c) return;
+  row.innerHTML = `<input class="email-input" type="email" inputmode="email" autocapitalize="none" value="${escapeHtml(c.email||"")}" />
+    <button class="ee-save" aria-label="Save email">Save</button>
+    <button class="ee-cancel" aria-label="Cancel">✕</button>`;
+  const input = row.querySelector(".email-input"); input.focus(); input.select();
+  row.querySelector(".ee-save").onclick = ()=> saveEmail(id, input.value);
+  row.querySelector(".ee-cancel").onclick = ()=> renderEmailView(id);
+  input.addEventListener("keydown", e=>{
+    if (e.key==="Enter"){ e.preventDefault(); saveEmail(id, input.value); }
+    if (e.key==="Escape"){ renderEmailView(id); }
+  });
+}
+async function saveEmail(id, val){
+  const c = customers.find(x=>String(x.id)===String(id)); if(!c) return;
+  const next = val.trim();
+  if (next === (c.email||"")){ renderEmailView(id); return; }
+  const prev = c.email;
+  c.email = next;
+  renderEmailView(id);
+  if (DEMO){ toast("Email updated (demo)"); return; }
+  try{
+    const { error } = await supabase.from("customers").update({ email: next, updated_at:new Date().toISOString() }).eq("id", id);
+    if (error) throw error;
+    toast("Email updated");
+  }catch(err){ console.error(err); c.email = prev; renderEmailView(id); toast("Couldn't save email"); }
+}
+
+/* ---------- helpers ---------- */
+function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+function escapeHtml(s){ return String(s??"").replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])); }
+function showBanner(type,msg){ const b=$("#banner"); b.className="banner "+type; b.textContent=msg; b.classList.remove("hidden"); }
+let toastT;
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove("show"),1600); }
+
+(async function boot(){
+  if (SS.getItem("osc_auth")==="1") await start();
+  else showGate();
+})();
+</script>
+</body>
+</html>
