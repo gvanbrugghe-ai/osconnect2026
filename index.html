@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
   <meta name="googlebot" content="noindex, nofollow" />
-  <title>OS Connect · Gartner Review</title>
+  <title>OS Connect 2026</title>
   <style>
     :root{
-      --ink:#0C1C2C; --ink-2:#13283C; --teal:#15B8A6; --teal-deep:#0E8C7F;
+      --ink:#0C1C2C; --teal:#15B8A6; --teal-deep:#0E8C7F;
       --paper:#F5F7F9; --card:#FFFFFF; --line:#E3E9EF; --muted:#5B7186; --text:#0C1C2C;
       --green:#16A34A; --green-bg:#E9F8EF; --amber:#B45309;
       --shadow:0 1px 2px rgba(12,28,44,.06),0 6px 20px rgba(12,28,44,.06);
@@ -19,12 +19,12 @@
     body{font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
       color:var(--text);background:var(--paper);-webkit-font-smoothing:antialiased;line-height:1.45}
     button{font-family:inherit;cursor:pointer}
-    input,select{font-family:inherit}
+    input,select,textarea{font-family:inherit}
     .wordmark{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
     .wordmark .dot{width:10px;height:10px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(21,184,166,.15)}
     .hidden{display:none!important}
 
-    /* Gate */
+    /* Dark screens (gate + menu) */
     .center{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;
       background:radial-gradient(1200px 500px at 50% -10%, rgba(21,184,166,.10), transparent 60%),linear-gradient(180deg,#0C1C2C,#0A1622);color:#fff}
     .gate-card{width:100%;max-width:380px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.10);
@@ -40,39 +40,46 @@
     .field input::placeholder{color:rgba(255,255,255,.35)}
     .btn-primary{width:100%;padding:14px;border:none;border-radius:11px;background:var(--teal);color:#04201C;
       font-weight:650;font-size:15.5px;letter-spacing:-.01em;transition:transform .05s ease,background .15s}
-    .btn-primary:hover{background:#19c7b3}
-    .btn-primary:active{transform:translateY(1px)}
+    .btn-primary:hover{background:#19c7b3}.btn-primary:active{transform:translateY(1px)}
     .err{color:#FCA5A5;font-size:13px;margin-top:10px;min-height:18px}
     .gate-foot{margin-top:18px;font-size:11.5px;color:rgba(255,255,255,.4);text-align:center}
 
-    /* App */
-    .appbar{position:sticky;top:0;z-index:30;background:var(--ink);color:#fff;padding-top:env(safe-area-inset-top);
-      box-shadow:0 6px 18px rgba(10,18,28,.18)}
-    .topbar{padding:11px 16px 6px;display:flex;align-items:center;justify-content:space-between}
-    .topbar .wordmark{font-size:15px}
-    .topbar .sub{font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.07em}
-    .export-btn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
-      color:#fff;border-radius:9px;padding:7px 11px;font-size:12.5px;font-weight:600;letter-spacing:.01em}
-    .export-btn:hover{background:rgba(21,184,166,.18);border-color:var(--teal)}
-    .export-btn:active{transform:translateY(1px)}
-    .export-btn svg{flex:none}
-    .stats{display:flex;gap:10px;padding:8px 16px 4px}
+    /* Menu */
+    .menu-grid{display:flex;flex-direction:column;gap:12px;width:100%;max-width:400px;margin-top:6px}
+    .menu-card{display:flex;align-items:center;gap:14px;text-align:left;padding:18px;border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#fff;transition:.15s}
+    .menu-card:hover{border-color:var(--teal);background:rgba(21,184,166,.10)}
+    .menu-ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--teal),#0E8C7F);color:#04201C;flex:none}
+    .menu-card h3{margin:0;font-size:16px;font-weight:650}
+    .menu-card p{margin:3px 0 0;font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.35}
+    .menu-card .chev{margin-left:auto;color:rgba(255,255,255,.4);flex:none}
+    .menu-logout{margin-top:20px;background:none;border:none;color:rgba(255,255,255,.45);font-size:12.5px;text-decoration:underline}
+
+    /* App shell */
+    .appbar{position:sticky;top:0;z-index:30;background:var(--ink);color:#fff;padding-top:env(safe-area-inset-top);box-shadow:0 6px 18px rgba(10,18,28,.18)}
+    .topbar{padding:11px 14px 6px;display:flex;align-items:center;gap:10px}
+    .topbar .title{font-size:15px;font-weight:650;letter-spacing:-.01em;flex:1;text-align:center}
+    .back-btn,.export-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);color:#fff;border-radius:9px;
+      padding:7px 10px;font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:5px;flex:none}
+    .back-btn:hover,.export-btn:hover{border-color:var(--teal);background:rgba(21,184,166,.16)}
+    .back-btn:active,.export-btn:active{transform:translateY(1px)}
+    .stats{display:flex;gap:10px;padding:8px 14px 4px}
     .stat{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);border-radius:12px;padding:9px 12px}
     .stat .num{font-size:21px;font-weight:700;letter-spacing:-.02em;line-height:1}
+    .stat .num.teal{color:var(--teal)} .stat .num.red{color:#FF8A8A}
     .stat .lbl{font-size:10.5px;color:rgba(255,255,255,.55);margin-top:4px;text-transform:uppercase;letter-spacing:.05em}
-    .stat .num.teal{color:var(--teal)}
-    .controls{padding:10px 16px 14px}
+    .controls{padding:10px 14px 14px}
     .search{width:100%;padding:11px 14px 11px 38px;border-radius:11px;border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.06) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237B91A6' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") no-repeat 12px center;
-      color:#fff;font-size:16px;outline:none}
-    .search:focus{border-color:var(--teal)}
-    .search::placeholder{color:rgba(255,255,255,.4)}
+      background:rgba(255,255,255,.06) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237B91A6' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") no-repeat 12px center;color:#fff;font-size:16px;outline:none}
+    .search:focus{border-color:var(--teal)} .search::placeholder{color:rgba(255,255,255,.4)}
     .filters{display:flex;gap:8px;margin-top:10px}
     .select{flex:1;min-width:0;padding:10px 30px 10px 12px;border-radius:11px;border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.06) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237B91A6' stroke-width='2.4'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;
-      color:#fff;font-size:14px;-webkit-appearance:none;appearance:none;outline:none}
-    .select:focus{border-color:var(--teal)}
-    .select option{color:#0C1C2C}
+      background:rgba(255,255,255,.06) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237B91A6' stroke-width='2.4'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;color:#fff;font-size:14px;-webkit-appearance:none;appearance:none;outline:none}
+    .select:focus{border-color:var(--teal)} .select option{color:#0C1C2C}
+    .chips{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+    .chip{padding:7px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:transparent;color:rgba(255,255,255,.78);font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px}
+    .chip.active{background:var(--teal);border-color:var(--teal);color:#04201C;font-weight:650}
+    .chip .cdot{width:9px;height:9px;border-radius:50%}
 
     .list{padding:8px 14px 90px}
     .brand-head{display:flex;align-items:center;gap:10px;padding:16px 4px 8px}
@@ -80,6 +87,7 @@
     .brand-head .count{font-size:12px;color:var(--muted);background:#EAEFF4;border-radius:999px;padding:2px 9px}
     .brand-head .rule{flex:1;height:1px;background:var(--line)}
 
+    /* Gartner cards */
     .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
     .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
     .cust-name{font-weight:650;font-size:15.5px;letter-spacing:-.01em}
@@ -89,20 +97,51 @@
     .edit-email:hover{color:var(--teal-deep);background:#EEF6F4}
     .email-input{flex:1;min-width:0;padding:8px 10px;border:1px solid var(--teal);border-radius:9px;font-size:14px;color:var(--text);outline:none}
     .ee-save,.ee-cancel{border:none;border-radius:9px;padding:8px 11px;font-size:13px;font-weight:700;flex:none}
-    .ee-save{background:var(--green);color:#fff}
-    .ee-cancel{background:#EEF2F6;color:var(--muted)}
+    .ee-save{background:var(--green);color:#fff}.ee-cancel{background:#EEF2F6;color:var(--muted)}
     .csm-tag{font-size:11px;color:var(--teal-deep);background:var(--green-bg);border-radius:999px;padding:3px 9px;white-space:nowrap;font-weight:600;flex:none}
     .toggles{display:flex;gap:10px;margin-top:13px;border-top:1px solid var(--line);padding-top:12px}
-    .tg{flex:1}
-    .tg .tg-lbl{font-size:11.5px;color:var(--muted);margin-bottom:7px;letter-spacing:.02em;text-transform:uppercase}
+    .tg{flex:1} .tg .tg-lbl{font-size:11.5px;color:var(--muted);margin-bottom:7px;letter-spacing:.02em;text-transform:uppercase}
+    .tg.locked .tg-lbl{color:#9AAABA}
     .switch{display:flex;background:#EEF2F6;border-radius:10px;padding:3px;gap:3px}
     .switch button{flex:1;border:none;background:transparent;padding:8px 4px;border-radius:8px;font-size:13px;font-weight:600;color:var(--muted);transition:.12s}
     .switch button.on-yes{background:var(--green);color:#fff;box-shadow:0 1px 3px rgba(22,163,74,.3)}
     .switch button.on-no{background:#FEE2E2;color:#B91C1C;box-shadow:0 1px 2px rgba(185,28,28,.12)}
-    .switch.is-disabled{opacity:.45}
-    .switch.is-disabled button{cursor:not-allowed}
-    .tg.locked .tg-lbl{color:#9AAABA}
+    .switch.is-disabled{opacity:.45}.switch.is-disabled button{cursor:not-allowed}
     .saving{opacity:.55;pointer-events:none}
+
+    /* Briefing cards */
+    .bcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+    .bcard-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+    .bcard-brand{font-weight:700;font-size:17px;letter-spacing:-.01em}
+    .bcard-meta{font-size:12.5px;color:var(--muted);margin-top:2px}
+    .bcard-meta b{color:var(--teal-deep);font-weight:650}
+    .health{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;border-radius:999px;padding:4px 10px;white-space:nowrap;flex:none}
+    .health .hdot{width:8px;height:8px;border-radius:50%}
+    .health.green{color:#157F46;background:#E9F8EF}.health.green .hdot{background:#16A34A}
+    .health.orange{color:#9A5B08;background:#FEF3C7}.health.orange .hdot{background:#E08A1E}
+    .health.red{color:#B11C1C;background:#FEE2E2}.health.red .hdot{background:#DC2626}
+    .health.none{color:var(--muted);background:#EEF2F6}.health.none .hdot{background:#94A3B8}
+    .bsection{margin-top:13px}
+    .bsection .lbl{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+    .bsection .val{font-size:14px;color:var(--text);line-height:1.5;white-space:pre-wrap}
+    .attendees{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+    .att{font-size:12.5px;background:#F1F5F8;border:1px solid var(--line);border-radius:8px;padding:5px 9px}
+    .att b{font-weight:650}.att span{color:var(--muted)}
+
+    /* Notes */
+    .notes{margin-top:15px;border-top:1px solid var(--line);padding-top:13px}
+    .notes-title{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+    .note{background:#F7F9FB;border:1px solid var(--line);border-radius:10px;padding:9px 11px;margin-bottom:7px}
+    .note-meta{font-size:11.5px;color:var(--muted);margin-bottom:3px}
+    .note-meta b{color:var(--ink);font-weight:650}
+    .note-body{font-size:13.5px;color:var(--text);white-space:pre-wrap;word-break:break-word}
+    .note-empty{font-size:12.5px;color:var(--muted);font-style:italic;margin-bottom:10px}
+    .note-form{display:flex;flex-direction:column;gap:7px;margin-top:6px}
+    .note-author{padding:9px 11px;border:1px solid var(--line);border-radius:9px;font-size:14px;outline:none}
+    .note-text{padding:9px 11px;border:1px solid var(--line);border-radius:9px;font-size:14px;outline:none;min-height:58px;resize:vertical}
+    .note-author:focus,.note-text:focus{border-color:var(--teal)}
+    .note-add{align-self:flex-end;background:var(--teal);color:#04201C;border:none;border-radius:9px;padding:9px 16px;font-weight:650;font-size:13.5px}
+    .note-add:hover{background:#19c7b3}
 
     .empty{text-align:center;color:var(--muted);padding:60px 24px}
     .empty .big{font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px}
@@ -110,30 +149,27 @@
     .banner{padding:9px 16px;font-size:12.5px;text-align:center;font-weight:500}
     .banner.demo{background:#FFF4E5;color:var(--amber);border-bottom:1px solid #FCE3C0}
     .banner.error{background:#FEF2F2;color:#B91C1C;border-bottom:1px solid #FCC}
-    .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;
-      padding:10px 16px;border-radius:999px;font-size:13px;font-weight:500;opacity:0;transition:.25s;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.25);pointer-events:none}
+    .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:10px 16px;border-radius:999px;font-size:13px;font-weight:500;opacity:0;transition:.25s;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.25);pointer-events:none}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
     @media (prefers-reduced-motion:reduce){*{transition:none!important}}
-    @media (min-width:640px){.list,.appbar > *{max-width:560px;margin-left:auto;margin-right:auto}}
+    @media (min-width:640px){.list,.appbar > *{max-width:600px;margin-left:auto;margin-right:auto}}
   </style>
 </head>
 <body>
+
+<div id="banner" class="banner hidden"></div>
 
 <!-- Gate -->
 <div id="gate" class="center">
   <div class="gate-card">
     <div class="wordmark"><span class="dot"></span> OneStock</div>
     <div class="gate-eyebrow">OS Connect 2026</div>
-    <h1 class="gate-title">Gartner Review sign-ups</h1>
+    <h1 class="gate-title">Event console</h1>
     <form id="gate-form" autocomplete="off">
-      <div class="field">
-        <label for="g-user">Login</label>
-        <input id="g-user" type="text" placeholder="Login" autocapitalize="none" autocomplete="username" />
-      </div>
-      <div class="field">
-        <label for="g-pass">Password</label>
-        <input id="g-pass" type="password" placeholder="Password" autocomplete="current-password" />
-      </div>
+      <div class="field"><label for="g-user">Login</label>
+        <input id="g-user" type="text" placeholder="Login" autocapitalize="none" autocomplete="username" /></div>
+      <div class="field"><label for="g-pass">Password</label>
+        <input id="g-pass" type="password" placeholder="Password" autocomplete="current-password" /></div>
       <button class="btn-primary" type="submit">Enter</button>
       <div id="gate-err" class="err"></div>
     </form>
@@ -141,38 +177,86 @@
   </div>
 </div>
 
-<!-- App -->
-<div id="app" class="hidden">
-  <div id="banner" class="banner hidden"></div>
-  <header class="appbar">
-    <div class="topbar">
-      <div class="wordmark"><span class="dot"></span> OS Connect</div>
-      <button id="export-btn" class="export-btn" type="button" aria-label="Export CSV">
-        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-        Export CSV
+<!-- Menu -->
+<div id="menu" class="center hidden">
+  <div style="width:100%;max-width:400px">
+    <div class="wordmark"><span class="dot"></span> OS Connect 2026</div>
+    <div class="gate-eyebrow">Choose a tool</div>
+    <div class="menu-grid">
+      <button class="menu-card" id="go-gartner">
+        <span class="menu-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 15 8l6 .9-4.5 4.3 1.1 6L12 16.8 6.4 19.2l1.1-6L3 8.9 9 8z"/></svg></span>
+        <span><h3>Gartner Review</h3><p>Track who's been contacted and who signed up for the review form.</p></span>
+        <span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>
+      </button>
+      <button class="menu-card" id="go-briefing">
+        <span class="menu-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h6"/></svg></span>
+        <span><h3>Customer Briefing</h3><p>Read account briefings and drop live notes during meetings.</p></span>
+        <span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>
       </button>
     </div>
+    <div style="text-align:center"><button class="menu-logout" id="logout">Log out</button></div>
+  </div>
+</div>
+
+<!-- Gartner -->
+<div id="gartner" class="hidden">
+  <header class="appbar">
+    <div class="topbar">
+      <button class="back-btn" data-back="1"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m15 18-6-6 6-6"/></svg>Menu</button>
+      <span class="title">Gartner Review</span>
+      <button id="g-export" class="export-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>CSV</button>
+    </div>
     <div class="stats">
-      <div class="stat"><div class="num" id="stat-total">0</div><div class="lbl">Targeted</div></div>
-      <div class="stat"><div class="num teal" id="stat-contacted">0</div><div class="lbl">Contacted</div></div>
-      <div class="stat"><div class="num teal" id="stat-subscribed">0</div><div class="lbl">Subscribed</div></div>
+      <div class="stat"><div class="num" id="g-stat-total">0</div><div class="lbl">Targeted</div></div>
+      <div class="stat"><div class="num teal" id="g-stat-contacted">0</div><div class="lbl">Contacted</div></div>
+      <div class="stat"><div class="num teal" id="g-stat-subscribed">0</div><div class="lbl">Subscribed</div></div>
     </div>
     <div class="controls">
-      <input id="search" class="search" type="search" placeholder="Search name, email, brand or CSM…" autocomplete="off" />
+      <input id="g-search" class="search" type="search" placeholder="Search name, email, brand or CSM…" autocomplete="off" />
       <div class="filters">
-        <select id="f-brand" class="select" aria-label="Filter by brand"><option value="">All brands</option></select>
-        <select id="f-csm" class="select" aria-label="Filter by CSM"><option value="">All CSMs</option></select>
+        <select id="g-f-brand" class="select"><option value="">All brands</option></select>
+        <select id="g-f-csm" class="select"><option value="">All CSMs</option></select>
       </div>
     </div>
   </header>
-  <div id="list" class="list"><div class="loading">Loading customers…</div></div>
+  <div id="g-list" class="list"></div>
+</div>
+
+<!-- Briefing -->
+<div id="briefing" class="hidden">
+  <header class="appbar">
+    <div class="topbar">
+      <button class="back-btn" data-back="1"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m15 18-6-6 6-6"/></svg>Menu</button>
+      <span class="title">Customer Briefing</span>
+      <button id="b-export" class="export-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>CSV</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="num" id="b-stat-total">0</div><div class="lbl">Briefings</div></div>
+      <div class="stat"><div class="num red" id="b-stat-red">0</div><div class="lbl">At risk</div></div>
+      <div class="stat"><div class="num teal" id="b-stat-notes">0</div><div class="lbl">Notes</div></div>
+    </div>
+    <div class="controls">
+      <input id="b-search" class="search" type="search" placeholder="Search brand, CSM, attendee, context…" autocomplete="off" />
+      <div class="filters">
+        <select id="b-f-brand" class="select"><option value="">All brands</option></select>
+        <select id="b-f-csm" class="select"><option value="">All CSMs</option></select>
+      </div>
+      <div class="chips" id="b-health-chips">
+        <button class="chip active" data-health="">All</button>
+        <button class="chip" data-health="red"><span class="cdot" style="background:#DC2626"></span>Red</button>
+        <button class="chip" data-health="orange"><span class="cdot" style="background:#E08A1E"></span>Orange</button>
+        <button class="chip" data-health="green"><span class="cdot" style="background:#16A34A"></span>Green</button>
+      </div>
+    </div>
+  </header>
+  <div id="b-list" class="list"></div>
 </div>
 
 <div id="toast" class="toast"></div>
 
 <script type="module">
 /* ================================================================
-   CONFIG — paste your Supabase project URL + anon (public) key.
+   CONFIG — paste your Supabase project URL + publishable (or anon) key.
    Leave as-is to run in DEMO mode (data is NOT saved/shared).
    ================================================================ */
 const SUPABASE_URL  = "https://mbkggtnkviwctkehrlym.supabase.co";
@@ -191,7 +275,7 @@ if (!DEMO) {
   supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
 
-/* All customers start Not contacted / Not subscribed by default. */
+/* ---------------- Demo data ---------------- */
 const DEMO_DATA = [
   {id:"1", brand:"Bogner", first_name:"Léa", last_name:"Moreau", email:"lea.moreau@bogner.example", csm:"Camille Dubois", contacted:false, subscribed:false},
   {id:"2", brand:"Bogner", first_name:"Tomas", last_name:"Berg", email:"t.berg@bogner.example", csm:"Marc Lefèvre", contacted:false, subscribed:false},
@@ -199,11 +283,20 @@ const DEMO_DATA = [
   {id:"4", brand:"APEX Tech", first_name:"Owen", last_name:"Pratt", email:"owen.pratt@apex.example", csm:"Sofia Rossi", contacted:false, subscribed:false},
   {id:"5", brand:"Northwind Apparel", first_name:"Mei", last_name:"Tan", email:"mei.tan@northwind.example", csm:"Marc Lefèvre", contacted:false, subscribed:false},
   {id:"6", brand:"Northwind Apparel", first_name:"Hugo", last_name:"Lambert", email:"hugo.lambert@northwind.example", csm:"Sofia Rossi", contacted:false, subscribed:false},
-  {id:"7", brand:"Maison Clé", first_name:"Inès", last_name:"Faure", email:"ines.faure@maisoncle.example", csm:"Camille Dubois", contacted:false, subscribed:false},
+];
+const DEMO_BRIEFINGS = [
+  {id:"b1", brand:"Bogner", attendees:"Anna Vogel - CDO; Lukas Maier - Head of E-commerce", csm:"Camille Dubois", scope:"OMS, Ship-from-Store, Click & Collect", context:"Live since 2023, expanding to DACH. Concerns about peak-season scaling.", health:"green", objectives:"Confirm 2026 roadmap alignment; scope an endless-aisle pilot."},
+  {id:"b2", brand:"APEX Tech", attendees:"Nadia Khan - COO", csm:"Sofia Rossi", scope:"Order routing, Inventory aggregation", context:"Migrated from legacy OMS last year; some routing rules still manual.", health:"orange", objectives:"Address routing-automation gaps; open the renewal conversation."},
+  {id:"b3", brand:"Northwind Apparel", attendees:"Mei Tan - VP Digital; Hugo Lambert - Retail Ops", csm:"Marc Lefèvre", scope:"Full unified commerce suite", context:"Escalations on store-fulfilment SLAs in Q1. Exec sponsor recently changed.", health:"red", objectives:"Rebuild trust; align on a support plan; identify upsell once stable."},
+];
+const DEMO_NOTES = [
+  {id:"n1", briefing_id:"b1", author:"Gui", note:"Anna keen on endless aisle — follow up with the pilot one-pager.", created_at:"2026-06-19T09:12:00Z"},
 ];
 
-let customers = [];
-let brandFilter = "", csmFilter = "", query = "";
+/* ---------------- State ---------------- */
+let customers = [], briefings = [], notes = [];
+let gBrand="", gCsm="", gQuery="";
+let bBrand="", bCsm="", bHealth="", bQuery="";
 
 const $ = (s) => document.querySelector(s);
 const SS = (() => {
@@ -211,203 +304,263 @@ const SS = (() => {
   catch(e){ const mem={}; return { getItem:k=>(k in mem?mem[k]:null), setItem:(k,v)=>{mem[k]=String(v);}, removeItem:k=>{delete mem[k];} }; }
 })();
 
-const gateEl = $("#gate"), appEl = $("#app");
+const views = { gate:$("#gate"), menu:$("#menu"), gartner:$("#gartner"), briefing:$("#briefing") };
+function show(v){ Object.keys(views).forEach(k=> views[k].classList.toggle("hidden", k!==v)); }
 
-$("#gate-form").addEventListener("submit", async (e) => {
+/* ---------------- Gate / nav ---------------- */
+$("#gate-form").addEventListener("submit", (e)=>{
   e.preventDefault();
-  const u = $("#g-user").value.trim(), p = $("#g-pass").value;
-  if (u.toLowerCase() === APP_LOGIN.toLowerCase() && p === APP_PASSWORD){ SS.setItem("osc_auth","1"); await start(); }
-  else { $("#gate-err").textContent = "Wrong login or password."; }
+  const u=$("#g-user").value.trim(), p=$("#g-pass").value;
+  if (u.toLowerCase()===APP_LOGIN.toLowerCase() && p===APP_PASSWORD){ SS.setItem("osc_auth","1"); goMenu(); }
+  else $("#gate-err").textContent="Wrong login or password.";
 });
+function goMenu(){ show("menu"); if (DEMO) showBanner("demo","Demo mode — changes are not saved. Add your Supabase keys to go live."); }
+$("#logout").addEventListener("click", ()=>{ SS.removeItem("osc_auth"); $("#banner").classList.add("hidden"); show("gate"); });
+document.querySelectorAll("[data-back]").forEach(b=> b.addEventListener("click", ()=> show("menu")));
+$("#go-gartner").addEventListener("click", openGartner);
+$("#go-briefing").addEventListener("click", openBriefing);
 
-function showGate(){ gateEl.classList.remove("hidden"); appEl.classList.add("hidden"); }
-
-async function start(){
-  if (!customers.length) await loadCustomers();
-  gateEl.classList.add("hidden"); appEl.classList.remove("hidden");
-  if (DEMO) showBanner("demo","Demo mode — changes are not saved. Add your Supabase keys to go live.");
-  populateFilters();
-  render();
+/* ================================================================
+   GARTNER REVIEW
+   ================================================================ */
+async function openGartner(){
+  show("gartner");
+  if (!customers.length){ $("#g-list").innerHTML='<div class="loading">Loading customers…</div>'; await loadCustomers(); }
+  fillSelect($("#g-f-brand"),"All brands",uniq(customers,"brand"));
+  fillSelect($("#g-f-csm"),"All CSMs",uniq(customers,"csm"));
+  renderGartner();
 }
-
 async function loadCustomers(){
   if (DEMO){ customers = DEMO_DATA.map(c=>({...c})); return; }
   try{
-    const { data, error } = await supabase
-      .from("customers")
+    const { data, error } = await supabase.from("customers")
       .select("id,brand,first_name,last_name,email,csm,contacted,subscribed")
       .order("brand",{ascending:true}).order("last_name",{ascending:true});
-    if (error) throw error;
-    customers = data || [];
-  }catch(err){ console.error(err); showBanner("error","Couldn't reach the database. Check your connection and try again."); customers=[]; }
+    if (error) throw error; customers = data || [];
+  }catch(err){ console.error(err); showBanner("error","Couldn't load customers. Check your connection."); customers=[]; }
 }
-
-function populateFilters(){
-  const brands=[...new Set(customers.map(c=>c.brand).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
-  const csms=[...new Set(customers.map(c=>c.csm).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
-  fillSelect($("#f-brand"),"All brands",brands);
-  fillSelect($("#f-csm"),"All CSMs",csms);
-}
-function fillSelect(sel, allLabel, values){
-  sel.innerHTML = `<option value="">${allLabel}</option>` + values.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join("");
-}
-
-$("#search").addEventListener("input", e=>{ query=e.target.value.trim().toLowerCase(); render(); });
-$("#f-brand").addEventListener("change", e=>{ brandFilter=e.target.value; render(); });
-$("#f-csm").addEventListener("change", e=>{ csmFilter=e.target.value; render(); });
-$("#export-btn").addEventListener("click", exportCsv);
+$("#g-search").addEventListener("input", e=>{ gQuery=e.target.value.trim().toLowerCase(); renderGartner(); });
+$("#g-f-brand").addEventListener("change", e=>{ gBrand=e.target.value; renderGartner(); });
+$("#g-f-csm").addEventListener("change", e=>{ gCsm=e.target.value; renderGartner(); });
+$("#g-export").addEventListener("click", exportGartnerCsv);
 
 function visibleCustomers(){
-  let list = customers.slice();
-  if (brandFilter) list = list.filter(c=>c.brand===brandFilter);
-  if (csmFilter)   list = list.filter(c=>c.csm===csmFilter);
-  if (query) list = list.filter(c=>`${c.first_name} ${c.last_name} ${c.email} ${c.brand} ${c.csm}`.toLowerCase().includes(query));
-  return list;
+  let l=customers.slice();
+  if (gBrand) l=l.filter(c=>c.brand===gBrand);
+  if (gCsm)   l=l.filter(c=>c.csm===gCsm);
+  if (gQuery) l=l.filter(c=>`${c.first_name} ${c.last_name} ${c.email} ${c.brand} ${c.csm}`.toLowerCase().includes(gQuery));
+  return l;
 }
-
-function render(){
-  const list = visibleCustomers();
-  $("#stat-total").textContent = list.length;
-  $("#stat-contacted").textContent = list.filter(c=>c.contacted).length;
-  $("#stat-subscribed").textContent = list.filter(c=>c.subscribed).length;
-
-  const el = $("#list");
-  if (!list.length){ el.innerHTML = `<div class="empty"><div class="big">No customers match</div>Clear your search or filters.</div>`; return; }
-
-  const groups = {};
-  list.forEach(c=>{ (groups[c.brand||"—"] ||= []).push(c); });
-  const brands = Object.keys(groups).sort((a,b)=>a.localeCompare(b));
-  el.innerHTML = brands.map(brand=>{
-    const cards = groups[brand].sort((a,b)=>(a.last_name||"").localeCompare(b.last_name||"")).map(cardHtml).join("");
-    return `<div class="brand-head"><h2>${escapeHtml(brand)}</h2><span class="count">${groups[brand].length}</span><span class="rule"></span></div>${cards}`;
+function renderGartner(){
+  const l=visibleCustomers();
+  $("#g-stat-total").textContent=l.length;
+  $("#g-stat-contacted").textContent=l.filter(c=>c.contacted).length;
+  $("#g-stat-subscribed").textContent=l.filter(c=>c.subscribed).length;
+  const el=$("#g-list");
+  if(!l.length){ el.innerHTML=`<div class="empty"><div class="big">No customers match</div>Clear your search or filters.</div>`; return; }
+  const groups={}; l.forEach(c=>{ (groups[c.brand||"—"] ||= []).push(c); });
+  el.innerHTML = Object.keys(groups).sort((a,b)=>a.localeCompare(b)).map(brand=>{
+    const cards=groups[brand].sort((a,b)=>(a.last_name||"").localeCompare(b.last_name||"")).map(custCard).join("");
+    return `<div class="brand-head"><h2>${esc(brand)}</h2><span class="count">${groups[brand].length}</span><span class="rule"></span></div>${cards}`;
   }).join("");
-
-  el.querySelectorAll("[data-action]").forEach(btn=>{ btn.onclick = ()=> onToggle(btn.dataset.id, btn.dataset.action, btn.dataset.val==="true"); });
-  el.querySelectorAll(".edit-email").forEach(b=>{ b.onclick = ()=> startEmailEdit(b.dataset.edit); });
+  el.querySelectorAll("[data-action]").forEach(b=> b.onclick=()=>onToggle(b.dataset.id,b.dataset.action,b.dataset.val==="true"));
+  el.querySelectorAll(".edit-email").forEach(b=> b.onclick=()=>startEmailEdit(b.dataset.edit));
 }
-
-function emailViewHtml(c){
-  return `<span class="cust-email">${escapeHtml(c.email||"—")}</span>
-    <button class="edit-email" data-edit="${c.id}" aria-label="Edit email">${PENCIL}</button>`;
+function emailViewHtml(c){ return `<span class="cust-email">${esc(c.email||"—")}</span><button class="edit-email" data-edit="${c.id}" aria-label="Edit email">${PENCIL}</button>`; }
+function custCard(c){
+  const subLocked=!c.contacted;
+  return `<div class="card" id="card-${c.id}"><div class="card-top">
+    <div style="min-width:0;flex:1"><div class="cust-name">${esc(c.first_name)} ${esc(c.last_name)}</div>
+    <div class="email-row" id="email-${c.id}">${emailViewHtml(c)}</div></div>
+    ${c.csm?`<span class="csm-tag">${esc(c.csm)}</span>`:""}</div>
+    <div class="toggles">${switchHtml(c.id,"contacted",c.contacted,"Contacted",false)}${switchHtml(c.id,"subscribed",c.subscribed,"Subscribed",subLocked)}</div></div>`;
 }
-
-function cardHtml(c){
-  const subLocked = !c.contacted;
-  return `<div class="card" id="card-${c.id}">
-    <div class="card-top">
-      <div style="min-width:0;flex:1">
-        <div class="cust-name">${escapeHtml(c.first_name)} ${escapeHtml(c.last_name)}</div>
-        <div class="email-row" id="email-${c.id}">${emailViewHtml(c)}</div>
-      </div>
-      ${c.csm ? `<span class="csm-tag">${escapeHtml(c.csm)}</span>` : ""}
-    </div>
-    <div class="toggles">
-      ${switchHtml(c.id,"contacted",c.contacted,"Contacted",false)}
-      ${switchHtml(c.id,"subscribed",c.subscribed,"Subscribed",subLocked)}
-    </div>
-  </div>`;
-}
-
-function switchHtml(id, field, val, label, disabled){
-  const dis = disabled ? "disabled" : "";
-  const lab = (disabled && field==="subscribed") ? "Subscribed · contact first" : label;
+function switchHtml(id,field,val,label,disabled){
+  const dis=disabled?"disabled":""; const lab=(disabled&&field==="subscribed")?"Subscribed · contact first":label;
   return `<div class="tg ${disabled?"locked":""}"><div class="tg-lbl">${lab}</div>
     <div class="switch ${disabled?"is-disabled":""}" role="group" aria-label="${label}">
-      <button data-action="${field}" data-id="${id}" data-val="true"  class="${val?"on-yes":""}" aria-pressed="${val}" ${dis}>Yes</button>
-      <button data-action="${field}" data-id="${id}" data-val="false" class="${!val?"on-no":""}" aria-pressed="${!val}" ${dis}>No</button>
-    </div></div>`;
+    <button data-action="${field}" data-id="${id}" data-val="true" class="${val?"on-yes":""}" aria-pressed="${val}" ${dis}>Yes</button>
+    <button data-action="${field}" data-id="${id}" data-val="false" class="${!val?"on-no":""}" aria-pressed="${!val}" ${dis}>No</button></div></div>`;
 }
-
-async function onToggle(id, field, value){
-  const c = customers.find(x=>String(x.id)===String(id));
-  if (!c || c[field]===value) return;
-  if (field==="subscribed" && !c.contacted) return; // locked guard
-  const prev = { contacted:c.contacted, subscribed:c.subscribed };
-  const updates = { [field]: value };
-  c[field] = value;
-  // If a customer is marked not contacted, they can't stay subscribed.
-  if (field==="contacted" && value===false && c.subscribed){ c.subscribed=false; updates.subscribed=false; }
-
-  const card = $("#card-"+id); if (card) card.classList.add("saving");
-  render();
-  if (DEMO){ const cc=$("#card-"+id); if(cc) cc.classList.remove("saving"); return; }
-  try{
-    updates.updated_at = new Date().toISOString();
-    const { error } = await supabase.from("customers").update(updates).eq("id", id);
-    if (error) throw error;
-    toast(value ? `${cap(field)} ✓` : `${cap(field)} cleared`);
-  }catch(err){ console.error(err); c.contacted=prev.contacted; c.subscribed=prev.subscribed; render(); toast("Couldn't save — try again"); }
+async function onToggle(id,field,value){
+  const c=customers.find(x=>String(x.id)===String(id)); if(!c||c[field]===value) return;
+  if(field==="subscribed" && !c.contacted) return;
+  const prev={contacted:c.contacted,subscribed:c.subscribed}; const updates={[field]:value}; c[field]=value;
+  if(field==="contacted" && value===false && c.subscribed){ c.subscribed=false; updates.subscribed=false; }
+  const card=$("#card-"+id); if(card) card.classList.add("saving"); renderGartner();
+  if(DEMO){ const cc=$("#card-"+id); if(cc) cc.classList.remove("saving"); return; }
+  try{ updates.updated_at=new Date().toISOString();
+    const {error}=await supabase.from("customers").update(updates).eq("id",id); if(error) throw error;
+    toast(value?`${cap(field)} ✓`:`${cap(field)} cleared`);
+  }catch(err){ console.error(err); c.contacted=prev.contacted; c.subscribed=prev.subscribed; renderGartner(); toast("Couldn't save — try again"); }
   finally{ const cc=$("#card-"+id); if(cc) cc.classList.remove("saving"); }
 }
-
-/* ---------- Email editing ---------- */
-function renderEmailView(id){
-  const c = customers.find(x=>String(x.id)===String(id)); const row = $("#email-"+id); if(!row||!c) return;
-  row.innerHTML = emailViewHtml(c);
-  const b = row.querySelector(".edit-email"); if (b) b.onclick = ()=> startEmailEdit(id);
+function renderEmailView(id){ const c=customers.find(x=>String(x.id)===String(id)); const row=$("#email-"+id); if(!row||!c) return;
+  row.innerHTML=emailViewHtml(c); const b=row.querySelector(".edit-email"); if(b) b.onclick=()=>startEmailEdit(id); }
+function startEmailEdit(id){ const c=customers.find(x=>String(x.id)===String(id)); const row=$("#email-"+id); if(!row||!c) return;
+  row.innerHTML=`<input class="email-input" type="email" inputmode="email" autocapitalize="none" value="${esc(c.email||"")}" />
+    <button class="ee-save">Save</button><button class="ee-cancel">✕</button>`;
+  const input=row.querySelector(".email-input"); input.focus(); input.select();
+  row.querySelector(".ee-save").onclick=()=>saveEmail(id,input.value);
+  row.querySelector(".ee-cancel").onclick=()=>renderEmailView(id);
+  input.addEventListener("keydown",e=>{ if(e.key==="Enter"){e.preventDefault();saveEmail(id,input.value);} if(e.key==="Escape"){renderEmailView(id);} });
 }
-function startEmailEdit(id){
-  const c = customers.find(x=>String(x.id)===String(id)); const row = $("#email-"+id); if(!row||!c) return;
-  row.innerHTML = `<input class="email-input" type="email" inputmode="email" autocapitalize="none" value="${escapeHtml(c.email||"")}" />
-    <button class="ee-save" aria-label="Save email">Save</button>
-    <button class="ee-cancel" aria-label="Cancel">✕</button>`;
-  const input = row.querySelector(".email-input"); input.focus(); input.select();
-  row.querySelector(".ee-save").onclick = ()=> saveEmail(id, input.value);
-  row.querySelector(".ee-cancel").onclick = ()=> renderEmailView(id);
-  input.addEventListener("keydown", e=>{
-    if (e.key==="Enter"){ e.preventDefault(); saveEmail(id, input.value); }
-    if (e.key==="Escape"){ renderEmailView(id); }
-  });
+async function saveEmail(id,val){ const c=customers.find(x=>String(x.id)===String(id)); if(!c) return;
+  const next=val.trim(); if(next===(c.email||"")){ renderEmailView(id); return; }
+  const prev=c.email; c.email=next; renderEmailView(id);
+  if(DEMO){ toast("Email updated (demo)"); return; }
+  try{ const {error}=await supabase.from("customers").update({email:next,updated_at:new Date().toISOString()}).eq("id",id); if(error) throw error; toast("Email updated"); }
+  catch(err){ console.error(err); c.email=prev; renderEmailView(id); toast("Couldn't save email"); }
 }
-async function saveEmail(id, val){
-  const c = customers.find(x=>String(x.id)===String(id)); if(!c) return;
-  const next = val.trim();
-  if (next === (c.email||"")){ renderEmailView(id); return; }
-  const prev = c.email;
-  c.email = next;
-  renderEmailView(id);
-  if (DEMO){ toast("Email updated (demo)"); return; }
-  try{
-    const { error } = await supabase.from("customers").update({ email: next, updated_at:new Date().toISOString() }).eq("id", id);
-    if (error) throw error;
-    toast("Email updated");
-  }catch(err){ console.error(err); c.email = prev; renderEmailView(id); toast("Couldn't save email"); }
-}
-
-/* ---------- CSV export ---------- */
-function csvCell(v){
-  if (v === true) return "Yes";
-  if (v === false) return "No";
-  const s = String(v ?? "");
-  return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
-}
-function exportCsv(){
-  const cols = ["brand","last_name","first_name","email","csm","contacted","subscribed"];
-  const rows = customers.slice().sort((a,b)=>
-    (a.brand||"").localeCompare(b.brand||"") || (a.last_name||"").localeCompare(b.last_name||""));
-  const lines = [cols.join(",")].concat(rows.map(c => cols.map(k => csvCell(c[k])).join(",")));
-  const csv = "\uFEFF" + lines.join("\r\n");   // BOM so Excel reads UTF-8 (accents)
-  const blob = new Blob([csv], { type:"text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `osconnect_gartner_${new Date().toISOString().slice(0,10)}.csv`;
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+function exportGartnerCsv(){
+  const cols=["brand","last_name","first_name","email","csm","contacted","subscribed"];
+  const rows=customers.slice().sort((a,b)=>(a.brand||"").localeCompare(b.brand||"")||(a.last_name||"").localeCompare(b.last_name||""));
+  downloadCsv(cols,[cols.join(",")].concat(rows.map(c=>cols.map(k=>csvCell(c[k])).join(","))),`osconnect_gartner_${today()}.csv`);
   toast(`Exported ${rows.length} customers`);
 }
 
-/* ---------- helpers ---------- */
-function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
-function escapeHtml(s){ return String(s??"").replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])); }
-function showBanner(type,msg){ const b=$("#banner"); b.className="banner "+type; b.textContent=msg; b.classList.remove("hidden"); }
-let toastT;
-function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove("show"),1600); }
+/* ================================================================
+   CUSTOMER BRIEFING
+   ================================================================ */
+async function openBriefing(){
+  show("briefing");
+  if (!briefings.length){ $("#b-list").innerHTML='<div class="loading">Loading briefings…</div>'; await loadBriefings(); await loadNotes(); }
+  fillSelect($("#b-f-brand"),"All brands",uniq(briefings,"brand"));
+  fillSelect($("#b-f-csm"),"All CSMs",uniq(briefings,"csm"));
+  renderBriefing();
+}
+async function loadBriefings(){
+  if (DEMO){ briefings = DEMO_BRIEFINGS.map(b=>({...b})); return; }
+  try{
+    const { data, error } = await supabase.from("briefings")
+      .select("id,brand,attendees,csm,scope,context,health,objectives").order("brand",{ascending:true});
+    if (error) throw error; briefings = data || [];
+  }catch(err){ console.error(err); showBanner("error","Couldn't load briefings. Check your connection."); briefings=[]; }
+}
+async function loadNotes(){
+  if (DEMO){ notes = DEMO_NOTES.map(n=>({...n})); return; }
+  try{
+    const { data, error } = await supabase.from("briefing_notes")
+      .select("id,briefing_id,author,note,created_at").order("created_at",{ascending:true});
+    if (error) throw error; notes = data || [];
+  }catch(err){ console.error(err); notes=[]; }
+}
+$("#b-search").addEventListener("input", e=>{ bQuery=e.target.value.trim().toLowerCase(); renderBriefing(); });
+$("#b-f-brand").addEventListener("change", e=>{ bBrand=e.target.value; renderBriefing(); });
+$("#b-f-csm").addEventListener("change", e=>{ bCsm=e.target.value; renderBriefing(); });
+$("#b-export").addEventListener("click", exportBriefingCsv);
+document.querySelectorAll("#b-health-chips .chip").forEach(ch=> ch.addEventListener("click", ()=>{
+  document.querySelectorAll("#b-health-chips .chip").forEach(c=>c.classList.remove("active"));
+  ch.classList.add("active"); bHealth=ch.dataset.health; renderBriefing();
+}));
 
-(async function boot(){
-  if (SS.getItem("osc_auth")==="1") await start();
-  else showGate();
-})();
+function visibleBriefings(){
+  let l=briefings.slice();
+  if (bBrand) l=l.filter(b=>b.brand===bBrand);
+  if (bCsm)   l=l.filter(b=>b.csm===bCsm);
+  if (bHealth)l=l.filter(b=>norm(b.health)===bHealth);
+  if (bQuery) l=l.filter(b=>`${b.brand} ${b.csm} ${b.attendees} ${b.scope} ${b.context} ${b.objectives}`.toLowerCase().includes(bQuery));
+  return l.sort((a,b)=>(a.brand||"").localeCompare(b.brand||""));
+}
+function notesFor(id){ return notes.filter(n=>String(n.briefing_id)===String(id)).sort((a,b)=>(a.created_at||"").localeCompare(b.created_at||"")); }
+function renderBriefing(){
+  const l=visibleBriefings();
+  $("#b-stat-total").textContent=l.length;
+  $("#b-stat-red").textContent=l.filter(b=>norm(b.health)==="red").length;
+  $("#b-stat-notes").textContent=l.reduce((s,b)=>s+notesFor(b.id).length,0);
+  const el=$("#b-list");
+  if(!l.length){ el.innerHTML=`<div class="empty"><div class="big">No briefings match</div>Clear your search or filters.</div>`; return; }
+  el.innerHTML=l.map(briefCard).join("");
+  el.querySelectorAll("[data-add]").forEach(b=> b.onclick=()=>addNote(b.dataset.add));
+}
+function healthBadge(h){ const k=norm(h); const label=k?cap(k):"—";
+  return `<span class="health ${k||"none"}"><span class="hdot"></span>${label}</span>`; }
+function attendeesHtml(s){
+  const parts=String(s||"").split(/;|\n/).map(x=>x.trim()).filter(Boolean);
+  if(!parts.length) return `<div class="val">—</div>`;
+  return `<div class="attendees">`+parts.map(p=>{
+    const m=p.split(/\s+[-–—]\s+/); // "Name - Title"
+    return m.length>1 ? `<span class="att"><b>${esc(m[0])}</b> <span>· ${esc(m.slice(1).join(" - "))}</span></span>` : `<span class="att"><b>${esc(p)}</b></span>`;
+  }).join("")+`</div>`;
+}
+function notesListHtml(id){
+  const ns=notesFor(id);
+  if(!ns.length) return `<div class="note-empty">No notes yet — be the first to add one.</div>`;
+  return ns.map(n=>`<div class="note"><div class="note-meta"><b>${esc(n.author||"Anonymous")}</b> · ${esc(fmtDate(n.created_at))}</div><div class="note-body">${esc(n.note)}</div></div>`).join("");
+}
+function briefCard(b){
+  const author=esc(SS.getItem("osc_author")||"");
+  return `<div class="bcard" id="bcard-${b.id}">
+    <div class="bcard-head">
+      <div style="min-width:0"><div class="bcard-brand">${esc(b.brand)}</div>
+        <div class="bcard-meta">CSM · <b>${esc(b.csm||"—")}</b></div></div>
+      ${healthBadge(b.health)}
+    </div>
+    <div class="bsection"><div class="lbl">Attendees</div>${attendeesHtml(b.attendees)}</div>
+    <div class="bsection"><div class="lbl">OneStock scope</div><div class="val">${esc(b.scope||"—")}</div></div>
+    <div class="bsection"><div class="lbl">Context</div><div class="val">${esc(b.context||"—")}</div></div>
+    <div class="bsection"><div class="lbl">Objectives for the event</div><div class="val">${esc(b.objectives||"—")}</div></div>
+    <div class="notes">
+      <div class="notes-title">Notes</div>
+      <div class="notes-list" id="notes-${b.id}">${notesListHtml(b.id)}</div>
+      <div class="note-form">
+        <input class="note-author" id="na-${b.id}" placeholder="Your first name" value="${author}" autocomplete="given-name" />
+        <textarea class="note-text" id="nt-${b.id}" placeholder="Add a note…"></textarea>
+        <button class="note-add" data-add="${b.id}">Add note</button>
+      </div>
+    </div></div>`;
+}
+function renderNotesBlock(id){ const box=$("#notes-"+id); if(box) box.innerHTML=notesListHtml(id);
+  $("#b-stat-notes").textContent=visibleBriefings().reduce((s,b)=>s+notesFor(b.id).length,0); }
+async function addNote(id){
+  const author=($("#na-"+id).value||"").trim(); const text=($("#nt-"+id).value||"").trim();
+  if(!author){ toast("Add your first name"); $("#na-"+id).focus(); return; }
+  if(!text){ toast("Write a note first"); $("#nt-"+id).focus(); return; }
+  SS.setItem("osc_author",author);
+  const btn=document.querySelector(`[data-add="${id}"]`); if(btn){ btn.disabled=true; btn.textContent="Saving…"; }
+  if(DEMO){
+    notes.push({id:"local-"+Date.now(), briefing_id:id, author, note:text, created_at:new Date().toISOString()});
+    $("#nt-"+id).value=""; renderNotesBlock(id); toast("Note added (demo)");
+    if(btn){ btn.disabled=false; btn.textContent="Add note"; } return;
+  }
+  try{
+    const { data, error } = await supabase.from("briefing_notes")
+      .insert({ briefing_id:id, author, note:text }).select("id,briefing_id,author,note,created_at").single();
+    if(error) throw error;
+    notes.push(data); $("#nt-"+id).value=""; renderNotesBlock(id); toast("Note added");
+  }catch(err){ console.error(err); toast("Couldn't save note — try again"); }
+  finally{ if(btn){ btn.disabled=false; btn.textContent="Add note"; } }
+}
+function exportBriefingCsv(){
+  const cols=["brand","csm","health","attendees","scope","context","objectives","note_author","note","note_created_at"];
+  const lines=[cols.join(",")];
+  briefings.slice().sort((a,b)=>(a.brand||"").localeCompare(b.brand||"")).forEach(b=>{
+    const ns=notesFor(b.id); const base={brand:b.brand,csm:b.csm,health:b.health,attendees:b.attendees,scope:b.scope,context:b.context,objectives:b.objectives};
+    if(!ns.length){ lines.push(cols.map(k=>csvCell({...base,note_author:"",note:"",note_created_at:""}[k])).join(",")); }
+    else ns.forEach(n=> lines.push(cols.map(k=>csvCell({...base,note_author:n.author,note:n.note,note_created_at:n.created_at}[k])).join(",")));
+  });
+  downloadCsv(cols,lines,`osconnect_briefings_${today()}.csv`);
+  toast(`Exported ${briefings.length} briefings`);
+}
+
+/* ---------------- helpers ---------------- */
+function uniq(arr,key){ return [...new Set(arr.map(x=>x[key]).filter(Boolean))].sort((a,b)=>a.localeCompare(b)); }
+function fillSelect(sel,allLabel,values){ sel.innerHTML=`<option value="">${allLabel}</option>`+values.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join(""); }
+function norm(h){ const s=String(h||"").trim().toLowerCase(); return ["green","orange","red"].includes(s)?s:""; }
+function cap(s){ return String(s).charAt(0).toUpperCase()+String(s).slice(1); }
+function today(){ return new Date().toISOString().slice(0,10); }
+function fmtDate(iso){ try{ const d=new Date(iso); return d.toLocaleString(undefined,{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"}); }catch(e){ return ""; } }
+function esc(s){ return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])); }
+function csvCell(v){ if(v===true) return "Yes"; if(v===false) return "No"; const s=String(v??""); return /[",\r\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s; }
+function downloadCsv(cols,lines,filename){
+  const blob=new Blob(["\uFEFF"+lines.join("\r\n")],{type:"text/csv;charset=utf-8;"});
+  const url=URL.createObjectURL(blob); const a=document.createElement("a");
+  a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function showBanner(type,msg){ const b=$("#banner"); b.className="banner "+type; b.textContent=msg; b.classList.remove("hidden"); }
+let toastT; function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove("show"),1600); }
+
+(function boot(){ if (SS.getItem("osc_auth")==="1") goMenu(); else show("gate"); })();
 </script>
 </body>
 </html>
