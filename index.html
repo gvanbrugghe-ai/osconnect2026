@@ -99,6 +99,7 @@
     .ee-save,.ee-cancel{border:none;border-radius:9px;padding:8px 11px;font-size:13px;font-weight:700;flex:none}
     .ee-save{background:var(--green);color:#fff}.ee-cancel{background:#EEF2F6;color:var(--muted)}
     .csm-tag{font-size:11px;color:var(--teal-deep);background:var(--green-bg);border-radius:999px;padding:3px 9px;white-space:nowrap;font-weight:600;flex:none}
+    .csm-tags{display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end;flex:none;max-width:58%}
     .toggles{display:flex;gap:10px;margin-top:13px;border-top:1px solid var(--line);padding-top:12px}
     .tg{flex:1} .tg .tg-lbl{font-size:11.5px;color:var(--muted);margin-bottom:7px;letter-spacing:.02em;text-transform:uppercase}
     .tg.locked .tg-lbl{color:#9AAABA}
@@ -123,6 +124,8 @@
     .health.none{color:var(--muted);background:#EEF2F6}.health.none .hdot{background:#94A3B8}
     .bsection{margin-top:13px}
     .bsection .lbl{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+    .bsection .lbl.lbl-opp{color:#0E8C7F}
+    .bsection .lbl.lbl-risk{color:#B11C1C}
     .bsection .val{font-size:14px;color:var(--text);line-height:1.5;white-space:pre-wrap}
     .attendees{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
     .att{font-size:12.5px;background:#F1F5F8;border:1px solid var(--line);border-radius:8px;padding:5px 9px}
@@ -279,15 +282,15 @@ if (!DEMO) {
 const DEMO_DATA = [
   {id:"1", brand:"Bogner", first_name:"Léa", last_name:"Moreau", email:"lea.moreau@bogner.example", csm:"Camille Dubois", contacted:false, subscribed:false},
   {id:"2", brand:"Bogner", first_name:"Tomas", last_name:"Berg", email:"t.berg@bogner.example", csm:"Marc Lefèvre", contacted:false, subscribed:false},
-  {id:"3", brand:"APEX Tech", first_name:"Nadia", last_name:"Khan", email:"nadia.khan@apex.example", csm:"Camille Dubois", contacted:false, subscribed:false},
+  {id:"3", brand:"APEX Tech", first_name:"Nadia", last_name:"Khan", email:"nadia.khan@apex.example", csm:"Camille Dubois; Sofia Rossi", contacted:false, subscribed:false},
   {id:"4", brand:"APEX Tech", first_name:"Owen", last_name:"Pratt", email:"owen.pratt@apex.example", csm:"Sofia Rossi", contacted:false, subscribed:false},
   {id:"5", brand:"Northwind Apparel", first_name:"Mei", last_name:"Tan", email:"mei.tan@northwind.example", csm:"Marc Lefèvre", contacted:false, subscribed:false},
   {id:"6", brand:"Northwind Apparel", first_name:"Hugo", last_name:"Lambert", email:"hugo.lambert@northwind.example", csm:"Sofia Rossi", contacted:false, subscribed:false},
 ];
 const DEMO_BRIEFINGS = [
-  {id:"b1", brand:"Bogner", attendees:"Anna Vogel - CDO; Lukas Maier - Head of E-commerce", csm:"Camille Dubois", scope:"OMS, Ship-from-Store, Click & Collect", context:"Live since 2023, expanding to DACH. Concerns about peak-season scaling.", health:"green", objectives:"Confirm 2026 roadmap alignment; scope an endless-aisle pilot."},
-  {id:"b2", brand:"APEX Tech", attendees:"Nadia Khan - COO", csm:"Sofia Rossi", scope:"Order routing, Inventory aggregation", context:"Migrated from legacy OMS last year; some routing rules still manual.", health:"orange", objectives:"Address routing-automation gaps; open the renewal conversation."},
-  {id:"b3", brand:"Northwind Apparel", attendees:"Mei Tan - VP Digital; Hugo Lambert - Retail Ops", csm:"Marc Lefèvre", scope:"Full unified commerce suite", context:"Escalations on store-fulfilment SLAs in Q1. Exec sponsor recently changed.", health:"red", objectives:"Rebuild trust; align on a support plan; identify upsell once stable."},
+  {id:"b1", brand:"Bogner", attendees:"Anna Vogel - CDO; Lukas Maier - Head of E-commerce", csm:"Camille Dubois", scope:"OMS, Ship-from-Store, Click & Collect", context:"Live since 2023, expanding to DACH. Concerns about peak-season scaling.", health:"green", objectives:"Confirm 2026 roadmap alignment; scope an endless-aisle pilot.", opportunities:"Endless-aisle pilot — strong interest from Anna.", key_stakeholders:"Anna Vogel (CDO) — executive sponsor.", risks:""},
+  {id:"b2", brand:"APEX Tech", attendees:"Nadia Khan - COO", csm:"Sofia Rossi; Marc Lefèvre", scope:"Order routing, Inventory aggregation", context:"Migrated from legacy OMS last year; some routing rules still manual.", health:"orange", objectives:"Address routing-automation gaps; open the renewal conversation.", opportunities:"Routing-automation upsell.", key_stakeholders:"Nadia Khan (COO) — economic buyer.", risks:"Renewal at risk if the automation gaps aren't addressed."},
+  {id:"b3", brand:"Northwind Apparel", attendees:"Mei Tan - VP Digital; Hugo Lambert - Retail Ops", csm:"Marc Lefèvre", scope:"Full unified commerce suite", context:"Escalations on store-fulfilment SLAs in Q1. Exec sponsor recently changed.", health:"red", objectives:"Rebuild trust; align on a support plan; identify upsell once stable.", opportunities:"Upsell once the account is stabilised.", key_stakeholders:"New exec sponsor — relationship to rebuild.", risks:"Trust eroded after Q1 SLA misses — handle with care."},
 ];
 const DEMO_NOTES = [
   {id:"n1", briefing_id:"b1", author:"Gui", note:"Anna keen on endless aisle — follow up with the pilot one-pager.", created_at:"2026-06-19T09:12:00Z"},
@@ -327,7 +330,7 @@ async function openGartner(){
   show("gartner");
   if (!customers.length){ $("#g-list").innerHTML='<div class="loading">Loading customers…</div>'; await loadCustomers(); }
   fillSelect($("#g-f-brand"),"All brands",uniq(customers,"brand"));
-  fillSelect($("#g-f-csm"),"All CSMs",uniq(customers,"csm"));
+  fillSelect($("#g-f-csm"),"All CSMs",uniqMulti(customers,"csm"));
   renderGartner();
 }
 async function loadCustomers(){
@@ -347,7 +350,7 @@ $("#g-export").addEventListener("click", exportGartnerCsv);
 function visibleCustomers(){
   let l=customers.slice();
   if (gBrand) l=l.filter(c=>c.brand===gBrand);
-  if (gCsm)   l=l.filter(c=>c.csm===gCsm);
+  if (gCsm)   l=l.filter(c=>splitList(c.csm).includes(gCsm));
   if (gQuery) l=l.filter(c=>`${c.first_name} ${c.last_name} ${c.email} ${c.brand} ${c.csm}`.toLowerCase().includes(gQuery));
   return l;
 }
@@ -372,7 +375,7 @@ function custCard(c){
   return `<div class="card" id="card-${c.id}"><div class="card-top">
     <div style="min-width:0;flex:1"><div class="cust-name">${esc(c.first_name)} ${esc(c.last_name)}</div>
     <div class="email-row" id="email-${c.id}">${emailViewHtml(c)}</div></div>
-    ${c.csm?`<span class="csm-tag">${esc(c.csm)}</span>`:""}</div>
+    ${csmTags(c.csm)}</div>
     <div class="toggles">${switchHtml(c.id,"contacted",c.contacted,"Contacted",false)}${switchHtml(c.id,"subscribed",c.subscribed,"Subscribed",subLocked)}</div></div>`;
 }
 function switchHtml(id,field,val,label,disabled){
@@ -426,14 +429,14 @@ async function openBriefing(){
   show("briefing");
   if (!briefings.length){ $("#b-list").innerHTML='<div class="loading">Loading briefings…</div>'; await loadBriefings(); await loadNotes(); }
   fillSelect($("#b-f-brand"),"All brands",uniq(briefings,"brand"));
-  fillSelect($("#b-f-csm"),"All CSMs",uniq(briefings,"csm"));
+  fillSelect($("#b-f-csm"),"All CSMs",uniqMulti(briefings,"csm"));
   renderBriefing();
 }
 async function loadBriefings(){
   if (DEMO){ briefings = DEMO_BRIEFINGS.map(b=>({...b})); return; }
   try{
     const { data, error } = await supabase.from("briefings")
-      .select("id,brand,attendees,csm,scope,context,health,objectives").order("brand",{ascending:true});
+      .select("id,brand,attendees,csm,scope,context,health,objectives,opportunities,key_stakeholders,risks").order("brand",{ascending:true});
     if (error) throw error; briefings = data || [];
   }catch(err){ console.error(err); showBanner("error","Couldn't load briefings. Check your connection."); briefings=[]; }
 }
@@ -457,9 +460,9 @@ document.querySelectorAll("#b-health-chips .chip").forEach(ch=> ch.addEventListe
 function visibleBriefings(){
   let l=briefings.slice();
   if (bBrand) l=l.filter(b=>b.brand===bBrand);
-  if (bCsm)   l=l.filter(b=>b.csm===bCsm);
+  if (bCsm)   l=l.filter(b=>splitList(b.csm).includes(bCsm));
   if (bHealth)l=l.filter(b=>norm(b.health)===bHealth);
-  if (bQuery) l=l.filter(b=>`${b.brand} ${b.csm} ${b.attendees} ${b.scope} ${b.context} ${b.objectives}`.toLowerCase().includes(bQuery));
+  if (bQuery) l=l.filter(b=>`${b.brand} ${b.csm} ${b.attendees} ${b.scope} ${b.context} ${b.objectives} ${b.opportunities} ${b.key_stakeholders} ${b.risks}`.toLowerCase().includes(bQuery));
   return l.sort((a,b)=>(a.brand||"").localeCompare(b.brand||""));
 }
 function notesFor(id){ return notes.filter(n=>String(n.briefing_id)===String(id)).sort((a,b)=>(a.created_at||"").localeCompare(b.created_at||"")); }
@@ -493,13 +496,16 @@ function briefCard(b){
   return `<div class="bcard" id="bcard-${b.id}">
     <div class="bcard-head">
       <div style="min-width:0"><div class="bcard-brand">${esc(b.brand)}</div>
-        <div class="bcard-meta">CSM · <b>${esc(b.csm||"—")}</b></div></div>
+        <div class="bcard-meta">CSM · ${splitList(b.csm).map(n=>`<b>${esc(n)}</b>`).join(", ")||"—"}</div></div>
       ${healthBadge(b.health)}
     </div>
     <div class="bsection"><div class="lbl">Attendees</div>${attendeesHtml(b.attendees)}</div>
     <div class="bsection"><div class="lbl">OneStock scope</div><div class="val">${esc(b.scope||"—")}</div></div>
     <div class="bsection"><div class="lbl">Context</div><div class="val">${esc(b.context||"—")}</div></div>
     <div class="bsection"><div class="lbl">Objectives for the event</div><div class="val">${esc(b.objectives||"—")}</div></div>
+    ${optSection("Opportunities", b.opportunities, "lbl-opp")}
+    ${optSection("Key stakeholders", b.key_stakeholders)}
+    ${optSection("Risks", b.risks, "lbl-risk")}
     <div class="notes">
       <div class="notes-title">Notes</div>
       <div class="notes-list" id="notes-${b.id}">${notesListHtml(b.id)}</div>
@@ -532,10 +538,10 @@ async function addNote(id){
   finally{ if(btn){ btn.disabled=false; btn.textContent="Add note"; } }
 }
 function exportBriefingCsv(){
-  const cols=["brand","csm","health","attendees","scope","context","objectives","note_author","note","note_created_at"];
+  const cols=["brand","csm","health","attendees","scope","context","objectives","opportunities","key_stakeholders","risks","note_author","note","note_created_at"];
   const lines=[cols.join(",")];
   briefings.slice().sort((a,b)=>(a.brand||"").localeCompare(b.brand||"")).forEach(b=>{
-    const ns=notesFor(b.id); const base={brand:b.brand,csm:b.csm,health:b.health,attendees:b.attendees,scope:b.scope,context:b.context,objectives:b.objectives};
+    const ns=notesFor(b.id); const base={brand:b.brand,csm:b.csm,health:b.health,attendees:b.attendees,scope:b.scope,context:b.context,objectives:b.objectives,opportunities:b.opportunities,key_stakeholders:b.key_stakeholders,risks:b.risks};
     if(!ns.length){ lines.push(cols.map(k=>csvCell({...base,note_author:"",note:"",note_created_at:""}[k])).join(",")); }
     else ns.forEach(n=> lines.push(cols.map(k=>csvCell({...base,note_author:n.author,note:n.note,note_created_at:n.created_at}[k])).join(",")));
   });
@@ -545,6 +551,11 @@ function exportBriefingCsv(){
 
 /* ---------------- helpers ---------------- */
 function uniq(arr,key){ return [...new Set(arr.map(x=>x[key]).filter(Boolean))].sort((a,b)=>a.localeCompare(b)); }
+function splitList(s){ return String(s||"").split(/;|\n/).map(x=>x.trim()).filter(Boolean); }
+function uniqMulti(arr,key){ const set=new Set(); arr.forEach(x=>splitList(x[key]).forEach(v=>set.add(v))); return [...set].sort((a,b)=>a.localeCompare(b)); }
+function csmTags(csm){ const l=splitList(csm); if(!l.length) return ""; return `<div class="csm-tags">`+l.map(n=>`<span class="csm-tag">${esc(n)}</span>`).join("")+`</div>`; }
+function cleanVal(v){ const t=String(v??"").trim(); return (t===""||/^(none|n\/a|na|-)$/i.test(t))?"":t; }
+function optSection(label,val,cls){ const v=cleanVal(val); if(!v) return ""; return `<div class="bsection"><div class="lbl ${cls||""}">${label}</div><div class="val">${esc(v)}</div></div>`; }
 function fillSelect(sel,allLabel,values){ sel.innerHTML=`<option value="">${allLabel}</option>`+values.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join(""); }
 function norm(h){ const s=String(h||"").trim().toLowerCase(); return ["green","orange","red"].includes(s)?s:""; }
 function cap(s){ return String(s).charAt(0).toUpperCase()+String(s).slice(1); }
