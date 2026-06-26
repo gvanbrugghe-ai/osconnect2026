@@ -288,9 +288,9 @@ const DEMO_DATA = [
   {id:"6", brand:"Northwind Apparel", first_name:"Hugo", last_name:"Lambert", email:"hugo.lambert@northwind.example", csm:"Sofia Rossi", contacted:false, subscribed:false},
 ];
 const DEMO_BRIEFINGS = [
-  {id:"b1", brand:"Bogner", attendees:"Anna Vogel - CDO; Lukas Maier - Head of E-commerce", csm:"Camille Dubois", scope:"OMS, Ship-from-Store, Click & Collect", context:"Live since 2023, expanding to DACH. Concerns about peak-season scaling.", health:"green", objectives:"Confirm 2026 roadmap alignment; scope an endless-aisle pilot.", opportunities:"Endless-aisle pilot — strong interest from Anna.", key_stakeholders:"Anna Vogel (CDO) — executive sponsor.", risks:""},
-  {id:"b2", brand:"APEX Tech", attendees:"Nadia Khan - COO", csm:"Sofia Rossi; Marc Lefèvre", scope:"Order routing, Inventory aggregation", context:"Migrated from legacy OMS last year; some routing rules still manual.", health:"orange", objectives:"Address routing-automation gaps; open the renewal conversation.", opportunities:"Routing-automation upsell.", key_stakeholders:"Nadia Khan (COO) — economic buyer.", risks:"Renewal at risk if the automation gaps aren't addressed."},
-  {id:"b3", brand:"Northwind Apparel", attendees:"Mei Tan - VP Digital; Hugo Lambert - Retail Ops", csm:"Marc Lefèvre", scope:"Full unified commerce suite", context:"Escalations on store-fulfilment SLAs in Q1. Exec sponsor recently changed.", health:"red", objectives:"Rebuild trust; align on a support plan; identify upsell once stable.", opportunities:"Upsell once the account is stabilised.", key_stakeholders:"New exec sponsor — relationship to rebuild.", risks:"Trust eroded after Q1 SLA misses — handle with care."},
+  {id:"b1", brand:"Bogner", attendees:"Anna Vogel - CDO; Lukas Maier - Head of E-commerce", csm:"Camille Dubois", scope:"OMS, Ship-from-Store, Click & Collect", context:"Live since 2023, expanding to DACH. Concerns about peak-season scaling.", health:"green", objectives:"Confirm 2026 roadmap alignment; scope an endless-aisle pilot.", opportunities:"Endless-aisle pilot — strong interest from Anna.", product_interest:"Anna Vogel (CDO) — executive sponsor.", risks:""},
+  {id:"b2", brand:"APEX Tech", attendees:"Nadia Khan - COO", csm:"Sofia Rossi; Marc Lefèvre", scope:"Order routing, Inventory aggregation", context:"Migrated from legacy OMS last year; some routing rules still manual.", health:"orange", objectives:"Address routing-automation gaps; open the renewal conversation.", opportunities:"Routing-automation upsell.", product_interest:"Nadia Khan (COO) — economic buyer.", risks:"Renewal at risk if the automation gaps aren't addressed."},
+  {id:"b3", brand:"Northwind Apparel", attendees:"Mei Tan - VP Digital; Hugo Lambert - Retail Ops", csm:"Marc Lefèvre", scope:"Full unified commerce suite", context:"Escalations on store-fulfilment SLAs in Q1. Exec sponsor recently changed.", health:"red", objectives:"Rebuild trust; align on a support plan; identify upsell once stable.", opportunities:"Upsell once the account is stabilised.", product_interest:"New exec sponsor — relationship to rebuild.", risks:"Trust eroded after Q1 SLA misses — handle with care."},
 ];
 const DEMO_NOTES = [
   {id:"n1", briefing_id:"b1", author:"Gui", note:"Anna keen on endless aisle — follow up with the pilot one-pager.", created_at:"2026-06-19T09:12:00Z"},
@@ -436,7 +436,7 @@ async function loadBriefings(){
   if (DEMO){ briefings = DEMO_BRIEFINGS.map(b=>({...b})); return; }
   try{
     const { data, error } = await supabase.from("briefings")
-      .select("id,brand,attendees,csm,scope,context,health,objectives,opportunities,key_stakeholders,risks").order("brand",{ascending:true});
+      .select("id,brand,attendees,csm,scope,context,health,objectives,opportunities,product_interest,risks").order("brand",{ascending:true});
     if (error) throw error; briefings = data || [];
   }catch(err){ console.error(err); showBanner("error","Couldn't load briefings. Check your connection."); briefings=[]; }
 }
@@ -462,7 +462,7 @@ function visibleBriefings(){
   if (bBrand) l=l.filter(b=>b.brand===bBrand);
   if (bCsm)   l=l.filter(b=>splitList(b.csm).includes(bCsm));
   if (bHealth)l=l.filter(b=>norm(b.health)===bHealth);
-  if (bQuery) l=l.filter(b=>`${b.brand} ${b.csm} ${b.attendees} ${b.scope} ${b.context} ${b.objectives} ${b.opportunities} ${b.key_stakeholders} ${b.risks}`.toLowerCase().includes(bQuery));
+  if (bQuery) l=l.filter(b=>`${b.brand} ${b.csm} ${b.attendees} ${b.scope} ${b.context} ${b.objectives} ${b.opportunities} ${b.product_interest} ${b.risks}`.toLowerCase().includes(bQuery));
   return l.sort((a,b)=>(a.brand||"").localeCompare(b.brand||""));
 }
 function notesFor(id){ return notes.filter(n=>String(n.briefing_id)===String(id)).sort((a,b)=>(a.created_at||"").localeCompare(b.created_at||"")); }
@@ -504,7 +504,7 @@ function briefCard(b){
     <div class="bsection"><div class="lbl">Context</div><div class="val">${esc(b.context||"—")}</div></div>
     <div class="bsection"><div class="lbl">Objectives for the event</div><div class="val">${esc(b.objectives||"—")}</div></div>
     ${optSection("Opportunities", b.opportunities, "lbl-opp")}
-    ${optSection("Key stakeholders", b.key_stakeholders)}
+    ${optSection("Product interest", b.product_interest)}
     ${optSection("Risks", b.risks, "lbl-risk")}
     <div class="notes">
       <div class="notes-title">Notes</div>
@@ -538,10 +538,10 @@ async function addNote(id){
   finally{ if(btn){ btn.disabled=false; btn.textContent="Add note"; } }
 }
 function exportBriefingCsv(){
-  const cols=["brand","csm","health","attendees","scope","context","objectives","opportunities","key_stakeholders","risks","note_author","note","note_created_at"];
+  const cols=["brand","csm","health","attendees","scope","context","objectives","opportunities","product_interest","risks","note_author","note","note_created_at"];
   const lines=[cols.join(",")];
   briefings.slice().sort((a,b)=>(a.brand||"").localeCompare(b.brand||"")).forEach(b=>{
-    const ns=notesFor(b.id); const base={brand:b.brand,csm:b.csm,health:b.health,attendees:b.attendees,scope:b.scope,context:b.context,objectives:b.objectives,opportunities:b.opportunities,key_stakeholders:b.key_stakeholders,risks:b.risks};
+    const ns=notesFor(b.id); const base={brand:b.brand,csm:b.csm,health:b.health,attendees:b.attendees,scope:b.scope,context:b.context,objectives:b.objectives,opportunities:b.opportunities,product_interest:b.product_interest,risks:b.risks};
     if(!ns.length){ lines.push(cols.map(k=>csvCell({...base,note_author:"",note:"",note_created_at:""}[k])).join(",")); }
     else ns.forEach(n=> lines.push(cols.map(k=>csvCell({...base,note_author:n.author,note:n.note,note_created_at:n.created_at}[k])).join(",")));
   });
